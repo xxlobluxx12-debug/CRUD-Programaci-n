@@ -1,0 +1,130 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+public class Main {
+    static Scanner teclado = new Scanner(System.in);
+    static ArrayList<Usuario> usuarios = new ArrayList<>();
+    public static void main(String[] args) {
+        int opcion;
+        do {
+            System.out.println("1. Crear usuario");
+            System.out.println("2. Editar usuario");
+            System.out.println("3. Eliminar usuario");
+            System.out.println("4. Mostrar usuarios");
+            System.out.println("5. Terminar");
+            System.out.print("Seleccione una opcion: ");
+            opcion = teclado.nextInt();
+            teclado.nextLine();
+            switch (opcion) {
+            case 1:
+            crearUsuario();
+            break;
+            case 2:
+            editarUsuario();
+            break;
+            case 3:
+            eliminarUsuario();
+            break;
+            case 4:
+            mostrarUsuarios();
+            break;
+            case 5:
+            System.out.println("Programa terminado.");
+            break;
+            default:
+            System.out.println("Opcion incorrecta.");
+            break;
+            }
+        } while (opcion != 5);
+    }
+    public static void crearUsuario() {
+        System.out.println("Crear Usuario");
+        System.out.print("Escriba su nombre: ");
+        String nombre = teclado.nextLine();
+        System.out.print("Escriba el sueldo: ");
+        double sueldo = teclado.nextDouble();
+        System.out.print("Escriba el telefono: ");
+        long telefono = teclado.nextLong();
+        System.out.print("Escriba las horas trabajadas: ");
+        double horasTrabajadas = teclado.nextDouble();
+        teclado.nextLine();
+        Usuario usuario = new Usuario(
+                nombre,
+                sueldo,
+                telefono,
+                horasTrabajadas
+        );
+        usuarios.add(usuario);
+        System.out.println("Usuario creado");
+    }
+    public static void editarUsuario() {
+        System.out.println("Editar Usuario");
+        if (usuarios.isEmpty()) {
+        System.out.println("No hay ningun usuario.");
+        return;
+        }
+        mostrarUsuarios();
+        System.out.print("Digite el numero del usuario que desea editar: ");
+        int posicion = teclado.nextInt();
+        teclado.nextLine();
+        if (posicion >= 0 && posicion < usuarios.size()) {
+        Usuario usuario = usuarios.get(posicion);
+        System.out.print("Nuevo nombre: ");
+        usuario.nombre = teclado.nextLine();
+        System.out.print("Nuevo sueldo: ");
+        usuario.sueldo = teclado.nextDouble();
+        System.out.print("Nuevo telefono: ");
+        usuario.telefono = teclado.nextLong();
+        System.out.print("Nuevas horas trabajadas: ");
+        usuario.horasTrabajadas = teclado.nextDouble();
+        teclado.nextLine();
+        System.out.println("Usuario actualizado correctamente.");
+        } else {
+        System.out.println("Usuario no encontrado.");
+        }
+    }
+    public static void eliminarUsuario() {
+        System.out.println("Eliminar Usuario");
+        if (usuarios.isEmpty()) {
+        System.out.println("No hay usuarios.");
+        return;
+        }
+        mostrarUsuarios();
+        System.out.print("Digite el numero del usuario que quiere eliminar: ");
+        int posicion = teclado.nextInt();
+        teclado.nextLine();
+        if (posicion >= 0 && posicion < usuarios.size()) {
+        usuarios.remove(posicion);
+        System.out.println("Usuario eliminado.");
+        } else {
+        System.out.println("Usuario no encontrado.");
+        }
+    }
+    public static void mostrarUsuarios() {
+
+        System.out.println("Usuarios");
+        if (usuarios.isEmpty()) {
+        System.out.println("No hay usuarios registrados.");
+        return;
+        }
+        for (int i = 0; i < usuarios.size(); i++) {
+        Usuario usuario = usuarios.get(i);
+        System.out.println("Usuario [" + i + "]");
+        System.out.println("Nombre: " + usuario.nombre);
+        System.out.println("Sueldo: $" + usuario.sueldo);
+        System.out.println("Telefono: " + usuario.telefono);
+        System.out.println("Horas trabajadas: " + usuario.horasTrabajadas);
+        }
+    }
+}
+class Usuario {
+    String nombre;
+    double sueldo;
+    long telefono;
+    double horasTrabajadas;
+    public Usuario(String nombre, double sueldo, long telefono, double horasTrabajadas) {
+    this.nombre = nombre;
+    this.sueldo = sueldo;
+    this.telefono = telefono;
+    this.horasTrabajadas = horasTrabajadas;
+    }
+}
