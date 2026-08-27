@@ -1,10 +1,27 @@
-import java.util.ArrayList;
 import java.util.Scanner;
+
 public class Main {
     static Scanner teclado = new Scanner(System.in);
-    static ArrayList<Usuario> usuarios = new ArrayList<>();
+
+    static class Usuario {
+        String nombre;
+        double sueldo;
+        long telefono;
+        double horasTrabajadas;
+
+        public Usuario(String nombreUsuario, double sueldoUsuario, long telefonoUsuario, double horasUsuario) {
+            nombre = nombreUsuario;
+            sueldo = sueldoUsuario;
+            telefono = telefonoUsuario;
+            horasTrabajadas = horasUsuario;
+        }
+    }
+
     public static void main(String[] args) {
+        Usuario[] usuarios = new Usuario[10];
+        int cantidadUsuarios = 0;
         int opcion;
+
         do {
             System.out.println("1. Crear usuario");
             System.out.println("2. Editar usuario");
@@ -14,117 +31,129 @@ public class Main {
             System.out.print("Seleccione una opcion: ");
             opcion = teclado.nextInt();
             teclado.nextLine();
+
             switch (opcion) {
             case 1:
-            crearUsuario();
-            break;
-            case 2:
-            editarUsuario();
-            break;
-            case 3:
-            eliminarUsuario();
-            break;
-            case 4:
-            mostrarUsuarios();
-            break;
-            case 5:
-            System.out.println("Programa terminado.");
-            break;
-            default:
-            System.out.println("Opcion incorrecta.");
-            break;
-            }
-        } while (opcion != 5);
-    }
-    public static void crearUsuario() {
-        System.out.println("Crear Usuario");
-        System.out.print("Escriba su nombre: ");
-        String nombre = teclado.nextLine();
-        System.out.print("Escriba el sueldo: ");
-        double sueldo = teclado.nextDouble();
-        System.out.print("Escriba el telefono: ");
-        long telefono = teclado.nextLong();
-        System.out.print("Escriba las horas trabajadas: ");
-        double horasTrabajadas = teclado.nextDouble();
-        teclado.nextLine();
-        Usuario usuario = new Usuario(
-                nombre,
-                sueldo,
-                telefono,
-                horasTrabajadas
-        );
-        usuarios.add(usuario);
-        System.out.println("Usuario creado");
-    }
-    public static void editarUsuario() {
-        System.out.println("Editar Usuario");
-        if (usuarios.isEmpty()) {
-        System.out.println("No hay ningun usuario.");
-        return;
-        }
-        mostrarUsuarios();
-        System.out.print("Digite el numero del usuario que desea editar: ");
-        int posicion = teclado.nextInt();
-        teclado.nextLine();
-        if (posicion >= 0 && posicion < usuarios.size()) {
-        Usuario usuario = usuarios.get(posicion);
-        System.out.print("Nuevo nombre: ");
-        usuario.nombre = teclado.nextLine();
-        System.out.print("Nuevo sueldo: ");
-        usuario.sueldo = teclado.nextDouble();
-        System.out.print("Nuevo telefono: ");
-        usuario.telefono = teclado.nextLong();
-        System.out.print("Nuevas horas trabajadas: ");
-        usuario.horasTrabajadas = teclado.nextDouble();
-        teclado.nextLine();
-        System.out.println("Usuario actualizado correctamente.");
-        } else {
-        System.out.println("Usuario no encontrado.");
-        }
-    }
-    public static void eliminarUsuario() {
-        System.out.println("Eliminar Usuario");
-        if (usuarios.isEmpty()) {
-        System.out.println("No hay usuarios.");
-        return;
-        }
-        mostrarUsuarios();
-        System.out.print("Digite el numero del usuario que quiere eliminar: ");
-        int posicion = teclado.nextInt();
-        teclado.nextLine();
-        if (posicion >= 0 && posicion < usuarios.size()) {
-        usuarios.remove(posicion);
-        System.out.println("Usuario eliminado.");
-        } else {
-        System.out.println("Usuario no encontrado.");
-        }
-    }
-    public static void mostrarUsuarios() {
+                System.out.println("Crear Usuario");
 
-        System.out.println("Usuarios");
-        if (usuarios.isEmpty()) {
-        System.out.println("No hay usuarios registrados.");
-        return;
-        }
-        for (int i = 0; i < usuarios.size(); i++) {
-        Usuario usuario = usuarios.get(i);
-        System.out.println("Usuario [" + i + "]");
-        System.out.println("Nombre: " + usuario.nombre);
-        System.out.println("Sueldo: $" + usuario.sueldo);
-        System.out.println("Telefono: " + usuario.telefono);
-        System.out.println("Horas trabajadas: " + usuario.horasTrabajadas);
-        }
-    }
-}
-class Usuario {
-    String nombre;
-    double sueldo;
-    long telefono;
-    double horasTrabajadas;
-    public Usuario(String nombre, double sueldo, long telefono, double horasTrabajadas) {
-    this.nombre = nombre;
-    this.sueldo = sueldo;
-    this.telefono = telefono;
-    this.horasTrabajadas = horasTrabajadas;
+        if (cantidadUsuarios < 10) {
+            System.out.print("Escriba su nombre: ");
+            String nombre = teclado.nextLine();
+
+            System.out.print("Escriba el sueldo: ");
+            double sueldo = teclado.nextDouble();
+
+            System.out.print("Escriba el telefono: ");
+            long telefono = teclado.nextLong();
+
+            System.out.print("Escriba las horas trabajadas: ");
+            double horasTrabajadas = teclado.nextDouble();
+            teclado.nextLine();
+
+            usuarios[cantidadUsuarios] = new Usuario(nombre, sueldo, telefono, horasTrabajadas);
+            cantidadUsuarios++;
+
+            System.out.println("Usuario creado");
+        } else {
+            System.out.println("No se pueden crear mas usuarios.");
+                }
+        break;
+            case 2:
+            System.out.println("Editar Usuario");
+
+        if (cantidadUsuarios == 0) {
+            System.out.println("No hay ningun usuario.");
+        } else {
+        for (int i = 0; i < cantidadUsuarios; i++) {
+            System.out.println("Usuario [" + i + "]");
+            System.out.println("Nombre: " + usuarios[i].nombre);
+            System.out.println("Sueldo: $" + usuarios[i].sueldo);
+            System.out.println("Telefono: " + usuarios[i].telefono);
+            System.out.println("Horas trabajadas: " + usuarios[i].horasTrabajadas);
+                    }
+
+                    System.out.print("Digite el numero del usuario que desea editar: ");
+                    int posicion = teclado.nextInt();
+                    teclado.nextLine();
+
+                    if (posicion >= 0 && posicion < cantidadUsuarios) {
+                        System.out.print("Nuevo nombre: ");
+                        usuarios[posicion].nombre = teclado.nextLine();
+
+                        System.out.print("Nuevo sueldo: ");
+                        usuarios[posicion].sueldo = teclado.nextDouble();
+
+                        System.out.print("Nuevo telefono: ");
+                        usuarios[posicion].telefono = teclado.nextLong();
+
+                        System.out.print("Nuevas horas trabajadas: ");
+                        usuarios[posicion].horasTrabajadas = teclado.nextDouble();
+                        teclado.nextLine();
+
+                        System.out.println("Usuario actualizado correctamente.");
+                    } else {
+                        System.out.println("Usuario no encontrado.");
+                    }
+                }
+                break;
+
+            case 3:
+                System.out.println("Eliminar Usuario");
+
+                if (cantidadUsuarios == 0) {
+                    System.out.println("No hay usuarios.");
+                } else {
+                    for (int i = 0; i < cantidadUsuarios; i++) {
+                    System.out.println("Usuario [" + i + "]");
+                    System.out.println("Nombre: " + usuarios[i].nombre);
+                    System.out.println("Sueldo: $" + usuarios[i].sueldo);
+                    System.out.println("Telefono: " + usuarios[i].telefono);
+                    System.out.println("Horas trabajadas: " + usuarios[i].horasTrabajadas);
+                    }
+                    System.out.print("Digite el numero del usuario que quiere eliminar: ");
+                    int posicion = teclado.nextInt();
+                    teclado.nextLine();
+
+                if (posicion >= 0 && posicion < cantidadUsuarios) {
+                    for (int i = posicion; i < cantidadUsuarios - 1; i++) {
+                   usuarios[i] = usuarios[i + 1];
+                        }
+                    usuarios[cantidadUsuarios - 1] = null;
+                    cantidadUsuarios--;
+                    System.out.println("Usuario eliminado.");
+                } else {
+                    System.out.println("Usuario no encontrado.");
+                    }
+                }
+                break;
+
+            case 4:
+                System.out.println("Usuarios");
+
+                if (cantidadUsuarios == 0) {
+                    System.out.println("No hay usuarios registrados.");
+                } else {
+                    for (int i = 0; i < cantidadUsuarios; i++) {
+                        System.out.println("Usuario [" + i + "]");
+                        System.out.println("Nombre: " + usuarios[i].nombre);
+                        System.out.println("Sueldo: $" + usuarios[i].sueldo);
+                        System.out.println("Telefono: " + usuarios[i].telefono);
+                        System.out.println("Horas trabajadas: " + usuarios[i].horasTrabajadas);
+                    }
+                }
+                break;
+
+            case 5:
+                System.out.println("Programa terminado.");
+                break;
+
+            default:
+                System.out.println("Opcion incorrecta.");
+                break;
+            }
+
+        } while (opcion != 5);
+
+        teclado.close();
     }
 }
